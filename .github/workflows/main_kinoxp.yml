@@ -62,5 +62,5 @@ jobs:
         with:
           app-name: 'KinoXP'
           slot-name: 'Production'
-          package: '${{ github.workspace }}/target/*.jar'
+          package: '${{ github.workspace }}/target/KinoXP-0.0.1-SNAPSHOT.jar'
           
