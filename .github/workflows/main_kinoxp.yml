@@ -54,10 +54,9 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A7F017FC35104BED94A76D6EF7220D23 }}
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'KinoXP'
           slot-name: 'Production'
-          package: '*.jar'
+          package: '${{ github.workspace }}/target/*.jar'
           
