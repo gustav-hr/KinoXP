@@ -28,7 +28,7 @@ jobs:
         run: mvn clean install
 
       - name: List target folder
-        run: ls -1R ${{ github.workspace }}
+        run: find ${{ github.workspace }} -name "*.jar"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
