@@ -15,7 +15,7 @@ public class ReservedSeat {
     private int reserved_seat_id;
     @ManyToOne
     @JoinColumn(name = "show_id")
-    private Show show;
+    private Showing show;
     @ManyToOne
     @JoinColumn(name = "seat_id")
     private Seat seat;
