@@ -1,4 +1,4 @@
-package model;
+package com.example.kinoxp.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

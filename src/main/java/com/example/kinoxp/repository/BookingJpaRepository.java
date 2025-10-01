@@ -1,6 +1,6 @@
-package repository;
+package com.example.kinoxp.repository;
 
-import model.Booking;
+import com.example.kinoxp.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookingJpaRepository extends JpaRepository<Booking, Integer> {
