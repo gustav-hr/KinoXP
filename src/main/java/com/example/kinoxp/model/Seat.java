@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Seat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int seat_id;
     @ManyToOne
     @JoinColumn(name = "theatre_id")

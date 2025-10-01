@@ -13,7 +13,7 @@ import lombok.Setter;
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int booking_id;
     private String email;
 

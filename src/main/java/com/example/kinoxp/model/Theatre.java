@@ -13,7 +13,7 @@ import lombok.Setter;
 public class Theatre {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int theatre_id;
     private String name;
     private int capacity;

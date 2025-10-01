@@ -15,7 +15,7 @@ import java.util.Date;
 public class Movie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int movie_id;
     private String title;
     private String description;

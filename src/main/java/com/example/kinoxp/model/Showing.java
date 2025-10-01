@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Showing {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int show_id;
     @ManyToOne
     @JoinColumn(name = "movie_id")

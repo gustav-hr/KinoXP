@@ -11,7 +11,7 @@ import lombok.Setter;
 public class ReservedSeat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reserved_seat_id;
     @ManyToOne
     @JoinColumn(name = "show_id")
