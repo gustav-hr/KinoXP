@@ -1,6 +1,6 @@
-package repository;
+package com.example.kinoxp.repository;
 
-import model.Admin;
+import com.example.kinoxp.model.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

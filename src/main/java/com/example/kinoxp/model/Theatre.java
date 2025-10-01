@@ -1,4 +1,4 @@
-package model;
+package com.example.kinoxp.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,13 +10,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Booking {
+public class Theatre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int booking_id;
-    private String email;
+    private int theatre_id;
+    private String name;
+    private int capacity;
 
-    public Booking() {}
+    public Theatre() {}
 
 }
