@@ -4,7 +4,7 @@
 name: Build and deploy JAR app to Azure Web App - KinoXP
 
 on:
-  push:
+  pull_request:
     branches:
       - main
   workflow_dispatch:
@@ -63,5 +63,5 @@ jobs:
         with:
           app-name: 'KinoXP'
           slot-name: 'Production'
-          package: './java-app/*.jar'
+          package: './java-app/KinoXP-*.jar'
           
