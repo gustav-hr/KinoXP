@@ -63,5 +63,5 @@ jobs:
         with:
           app-name: 'KinoXP'
           slot-name: 'Production'
-          package: './java-app/KinoXP-*.jar'
+          package: './java-app/*.jar'
           

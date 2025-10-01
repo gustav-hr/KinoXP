@@ -15,7 +15,7 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name = "theatre_id")
     private Theatre theatre;
-    private int row_number;
+    private int seat_row;
     private int seat_number;
 
     public Seat() {}

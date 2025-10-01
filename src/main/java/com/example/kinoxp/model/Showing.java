@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class Show {
+public class Showing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,6 +22,6 @@ public class Show {
     private Theatre theatre;
     private LocalDateTime start_time;
 
-    public Show() {}
+    public Showing() {}
 
 }
