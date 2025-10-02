@@ -1,82 +1,114 @@
-    document.addEventListener('DOMContentLoaded', function () {
-    // Hent alle de elementer, vi skal bruge
+document.addEventListener('DOMContentLoaded', function () {
+
+    const movieContainer = document.getElementById('movie-container');
+    const movieTemplate = document.getElementById('movie-template');
+    const seatModalElement = document.getElementById('seatSelectionModal');
+    const seatModal = new bootstrap.Modal(seatModalElement);
+
+
+    // Fetch movie data from the backend
+    fetch('/movies')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(movies => {
+            movies.forEach(movie => {
+                // Clone the template's content
+                const movieCard = movieTemplate.content.cloneNode(true);
+
+                // Get the elements inside the cloned template
+                const titleEl = movieCard.querySelector('.movie-title');
+                const posterEl = movieCard.querySelector('.movie-poster');
+                const genreEl = movieCard.querySelector('.movie-genre');
+                const durationEl = movieCard.querySelector('.movie-duration');
+                const ageLimitEl = movieCard.querySelector('.movie-age-limit');
+                const releaseDateEl = movieCard.querySelector('.movie-release-date');
+                const descriptionEl = movieCard.querySelector('.movie-description');
+                const actorsEl = movieCard.querySelector('.movie-actors');
+                const durationTextEl = movieCard.querySelector('.movie-duration-text');
+                const ageLimitTextEl = movieCard.querySelector('.movie-age-limit-text');
+
+                // Fill the elements with data from the movie object
+                titleEl.textContent = movie.title;
+                posterEl.src = movie.poster_url;
+                posterEl.alt = `Movie poster for ${movie.title}`;
+                genreEl.textContent = movie.genre;
+                durationEl.textContent = `${movie.duration_minutes}m`;
+                durationTextEl.textContent = `${movie.duration_minutes}m`;
+                ageLimitEl.textContent = movie.age_rating;
+                ageLimitTextEl.textContent = movie.age_rating;
+                releaseDateEl.textContent = new Date(movie.published_date).toLocaleDateString();
+                descriptionEl.textContent = movie.description;
+                actorsEl.textContent = movie.actors;
+
+                // Add the populated card to the container
+                movieContainer.appendChild(movieCard);
+            });
+        })
+        .catch(error => {
+            console.error('There was a problem fetching the movies:', error);
+            movieContainer.innerHTML = '<p>Kunne ikke indlæse film. Prøv venligst igen senere.</p>';
+        });
+
+
+    // --- Cancel Booking Modal Logic ---
     const step1 = document.getElementById('modal-step-1');
     const step2 = document.getElementById('modal-step-2');
     const footer1 = document.getElementById('footer-step-1');
     const footer2 = document.getElementById('footer-step-2');
-
     const submitBtn = document.getElementById('submit-booking-code');
     const backBtn = document.getElementById('back-to-step-1');
 
-    // Lyt efter klik på "Submit"-knappen
-    submitBtn.addEventListener('click', function(event) {
-    // Forhindrer formen i at genindlæse siden
-    event.preventDefault();
+    submitBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+        step1.classList.add('d-none');
+        footer1.classList.add('d-none');
+        step2.classList.remove('d-none');
+        footer2.classList.remove('d-none');
+    });
 
-    // HER vil du senere indsætte din logik til at tjekke koden.
-    // For nu skifter vi bare til næste step med det samme.
-
-    // Skjul step 1 og vis step 2
-    step1.classList.add('d-none');
-    footer1.classList.add('d-none');
-    step2.classList.remove('d-none');
-    footer2.classList.remove('d-none');
-});
-
-    // Lyt efter klik på "Go Back"-knappen (Annullere)
-    backBtn.addEventListener('click', function() {
-    // Skjul step 2 og vis step 1 igen
-    step2.classList.add('d-none');
-    footer2.classList.add('d-none');
-    step1.classList.remove('d-none');
-    footer1.classList.remove('d-none');
-});
+    backBtn.addEventListener('click', function () {
+        step2.classList.add('d-none');
+        footer2.classList.add('d-none');
+        step1.classList.remove('d-none');
+        footer1.classList.remove('d-none');
+    });
 
 
-
+    // --- Seat Selection Modal Logic ---
     const seatMapContainer = document.getElementById('seat-map-container');
     const rows = 20;
     const seatsPerRow = 12;
 
-    // --- DEL 1: Byg sæde-gitteret dynamisk ---
     function generateSeats() {
-    seatMapContainer.innerHTML = ''; // Nulstil gitteret
-    for (let i = 0; i < rows * seatsPerRow; i++) {
-    const seat = document.createElement('div');
-    seat.classList.add('seat');
+        seatMapContainer.innerHTML = '';
+        for (let i = 0; i < rows * seatsPerRow; i++) {
+            const seat = document.createElement('div');
+            seat.classList.add('seat');
+            if (Math.random() < 0.2) {
+                seat.classList.add('sold');
+            }
+            seatMapContainer.appendChild(seat);
+        }
+    }
 
-    // Simuler at nogle sæder allerede er solgt (tilfældigt)
-    if (Math.random() < 0.2) { // Ca. 20% chance for at et sæde er solgt
-    seat.classList.add('sold');
-}
-    seatMapContainer.appendChild(seat);
-}
-}
+    seatMapContainer.addEventListener('click', function (event) {
+        const clickedEl = event.target;
+        if (clickedEl.classList.contains('seat') && !clickedEl.classList.contains('sold')) {
+            clickedEl.classList.toggle('selected');
+        }
+    });
 
-    // --- DEL 2: Håndter klik på sæder (Event Delegation) ---
-    seatMapContainer.addEventListener('click', function(event) {
-    const clickedEl = event.target;
-    // Tjek om der blev klikket på et sæde, og at det ikke er solgt
-    if (clickedEl.classList.contains('seat') && !clickedEl.classList.contains('sold')) {
-    // "toggle" skifter klassen: tilføjer den hvis den mangler, fjerner den hvis den er der.
-    clickedEl.classList.toggle('selected');
-}
-});
-
-    // --- DEL 3: Håndter klik på visningsknapperne ---
-    const showtimeButtons = document.querySelectorAll('.showtime-btn');
-    const seatModalElement = document.getElementById('seatSelectionModal');
-    const seatModal = new bootstrap.Modal(seatModalElement);
-
-    showtimeButtons.forEach(button => {
-    button.addEventListener('click', function(event) {
-    event.preventDefault(); // Forhindrer linket i at hoppe til toppen af siden
-
-    // Byg et nyt (tilfældigt) sæde-layout, hver gang man åbner modalen
-    generateSeats();
-
-    // Åbn modalen
-    seatModal.show();
-});
-});
+    // Event delegation for dynamically created showtime buttons
+    movieContainer.addEventListener('click', function (event) {
+        const clickedEl = event.target;
+        if (clickedEl.classList.contains('showtime-btn')) {
+            event.preventDefault();
+            generateSeats();
+            seatModal.show();
+        }
+    });
 });
