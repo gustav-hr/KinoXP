@@ -28,9 +28,9 @@
                 </svg>
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">About Kino</a></li>
-                <li><a class="dropdown-item" href="#">Find Us</a></li>
-                <li><a class="dropdown-item" href="#">Contact</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#aboutModal">About Kino</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#findUsModal">Find Us</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
             </ul>
         </div>
 
@@ -182,6 +182,71 @@
 <script src="js/showings.js" type="module"></script>
 <script src="js/script.js" type="module"></script>
 
+<!-- About -->
+<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="aboutLabel">About Kino</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Kino er et hyggeligt nabolagsbiografprojekt med fokus på nye premierer og klassikere.</p>
+                <ul class="mb-0">
+                    <li>2 rummelige sale</li>
+                    <li>Billige biografbilletter</li>
+                    <li>Saler kan bookes ved aftale</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Find Us -->
+<div class="modal fade" id="findUsModal" tabindex="-1" aria-labelledby="findUsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="findUsLabel">Find Us</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Sundholmsvej 42, 2300 København</p>
+                <p class="mb-2">din luder</p>
+                <div class="ratio ratio-16x9 rounded overflow-hidden">
+                    <iframe
+                            src="https://www.openstreetmap.org/export/embed.html?bbox=12.565%2C55.69%2C12.58%2C55.70&layer=mapnik"
+                            style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactLabel">Contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="vstack gap-3">
+                    <input type="email" class="form-control" placeholder="Email">
+                    <textarea class="form-control" rows="4" placeholder="Your message"></textarea>
+                    <button type="button" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 

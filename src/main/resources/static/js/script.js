@@ -116,3 +116,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+document.querySelectorAll('.dropdown-item[data-bs-toggle="modal"]').forEach(item => {
+    item.addEventListener('click', e => {
+        const toggle = e.target.closest('.dropdown')?.querySelector('[data-bs-toggle="dropdown"]');
+        if (toggle) bootstrap.Dropdown.getOrCreateInstance(toggle).hide();
+    });
+});
