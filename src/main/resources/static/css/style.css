@@ -1,0 +1,104 @@
+#logo {
+    font-family: 'Oi', sans-serif;
+    font-size: 4rem; /* Juster størrelsen efter smag */
+}
+
+
+/* 1. Containeren der holder både billede og overlay */
+.movie-poster-container {
+    position: relative; /* Nødvendig for at kunne positionere overlay'et korrekt indeni */
+    cursor: pointer; /* Ændrer musen til en hånd, så det føles interaktivt */
+    overflow: hidden; /* Sikrer at overlay'ets afrundede hjørner matcher billedets */
+    border-radius: var(--bs-border-radius-lg); /* Matcher Bootstraps "rounded-3" */
+}
+
+/* 2. Selve overlay-boksen med information */
+.movie-info-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(20, 20, 20, 0.95);
+    color: white;
+
+    padding: 1.5rem;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+    /* BEHOLD DENNE LINJE for at aktivere scroll */
+    overflow-y: auto;
+
+    /* ---- NY KODE STARTER HER ---- */
+
+    /* Regel til at skjule scrollbar i Firefox */
+    scrollbar-width: none;
+
+    /* Regel til at skjule scrollbar i Internet Explorer og Edge (ældre) */
+    -ms-overflow-style: none;
+}
+
+/* Ny, separat regel til at skjule scrollbar i Chrome, Safari og andre WebKit-browsere */
+.movie-info-overlay::-webkit-scrollbar {
+    display: none;
+}
+
+/* 3. Magien: Når man holder musen over containeren, vises overlay'et */
+.movie-poster-container:hover .movie-info-overlay {
+    opacity: 1; /* Gør den fuldt synlig */
+    visibility: visible;
+}
+
+
+
+
+/* Custom CSS til sædevælger */
+#seat-map-container {
+    display: grid;
+    /* Laver et gitter med 12 lige brede kolonner */
+    grid-template-columns: repeat(12, auto);
+    gap: 6px; /* Afstand mellem sæderne */
+    justify-content: center;     /* Centrerer hele det nu mindre gitter i midten af modalen */
+
+}
+
+.seat {
+    width: 25px;
+    height: 25px;
+    background-color: #800080; /* Lilla for ledige sæder */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out, background-color 0.2s;
+}
+
+/* Visuel feedback når man holder musen over et ledigt sæde */
+.seat:not(.sold):not(.selected):hover {
+    transform: scale(1.1);
+    background-color: #a040a0;
+}
+
+.seat.sold {
+    background-color: #dc3545; /* Rød for solgte sæder */
+    cursor: not-allowed;
+}
+
+.seat.selected {
+    background-color: #ffffff; /* Hvid for valgte sæder */
+}
+
+/* CSS til farveforklaringen (legend) */
+.seat-legend {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+.seat-legend.available { background-color: #800080; }
+.seat-legend.selected { background-color: #ffffff; }
+.seat-legend.sold { background-color: #dc3545; }
+
+
+
