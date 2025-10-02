@@ -1,12 +1,13 @@
-document.addEventListener('DOMContentLoaded', function () {
+// Importer funktionen fra loadings.js
+import { fetchAndRenderShowings } from './showings.js';
 
+document.addEventListener('DOMContentLoaded', function () {
     const movieContainer = document.getElementById('movie-container');
     const movieTemplate = document.getElementById('movie-template');
     const seatModalElement = document.getElementById('seatSelectionModal');
     const seatModal = new bootstrap.Modal(seatModalElement);
 
-
-    // Fetch movie data from the backend
+    // Hent filmdata fra backend
     fetch('/movies')
         .then(response => {
             if (!response.ok) {
@@ -16,10 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(movies => {
             movies.forEach(movie => {
-                // Clone the template's content
+                // Klon filmkortets skabelon
                 const movieCard = movieTemplate.content.cloneNode(true);
 
-                // Get the elements inside the cloned template
+                // Find elementerne i det klonede kort
                 const titleEl = movieCard.querySelector('.movie-title');
                 const posterEl = movieCard.querySelector('.movie-poster');
                 const genreEl = movieCard.querySelector('.movie-genre');
@@ -30,11 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const actorsEl = movieCard.querySelector('.movie-actors');
                 const durationTextEl = movieCard.querySelector('.movie-duration-text');
                 const ageLimitTextEl = movieCard.querySelector('.movie-age-limit-text');
+                const showtimesContainer = movieCard.querySelector('.movie-showtimes-container');
 
-                // Fill the elements with data from the movie object
+                // Udfyld elementerne med data fra filmen
                 titleEl.textContent = movie.title;
                 posterEl.src = movie.poster_url;
-                posterEl.alt = `Movie poster for ${movie.title}`;
+                posterEl.alt = `Filmplakat for ${movie.title}`;
                 genreEl.textContent = movie.genre;
                 durationEl.textContent = `${movie.duration_minutes}m`;
                 durationTextEl.textContent = `${movie.duration_minutes}m`;
@@ -44,17 +46,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 descriptionEl.textContent = movie.description;
                 actorsEl.textContent = movie.actors;
 
-                // Add the populated card to the container
+                // Kald funktionen fra showings.js for at hente og vise forestillinger
+                fetchAndRenderShowings(movie, showtimesContainer);
+
+                // Tilføj det udfyldte filmkort til containeren
                 movieContainer.appendChild(movieCard);
             });
         })
         .catch(error => {
-            console.error('There was a problem fetching the movies:', error);
+            console.error('Der var et problem med at hente filmene:', error);
             movieContainer.innerHTML = '<p>Kunne ikke indlæse film. Prøv venligst igen senere.</p>';
         });
 
 
-    // --- Cancel Booking Modal Logic ---
+    // --- Logik for annullering af booking-modal ---
     const step1 = document.getElementById('modal-step-1');
     const step2 = document.getElementById('modal-step-2');
     const footer1 = document.getElementById('footer-step-1');
@@ -78,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    // --- Seat Selection Modal Logic ---
+    // --- Logik for sædevalg-modal ---
     const seatMapContainer = document.getElementById('seat-map-container');
     const rows = 20;
     const seatsPerRow = 12;
@@ -102,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Event delegation for dynamically created showtime buttons
     movieContainer.addEventListener('click', function (event) {
         const clickedEl = event.target;
         if (clickedEl.classList.contains('showtime-btn')) {
