@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Frontpage</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +16,6 @@
 <body>
 
 
-<!-- NAVBAR -->
 <nav class="navbar bg-body-tertiary rounded mb-3" aria-label="Simple navbar">
     <div class="container">
 
@@ -38,228 +36,47 @@
 
         <a class="navbar-brand mx-auto" id="logo" href="#">Kino</a>
 
-        <button class="btn btn-outline-warning" type="button" data-bs-toggle="modal" data-bs-target="#cancelBookingModal">
+        <button class="btn btn-outline-warning" type="button" data-bs-toggle="modal"
+                data-bs-target="#cancelBookingModal">
             Cancel Tickets
         </button>
     </div>
 </nav>
-<!-- NAVBAR -->
-
-<!-- MOVIE CONTAINER -->
-<div class="container my-5">
-
+<template id="movie-template">
     <div class="border rounded-3 p-4 mb-4 shadow-sm">
         <div class="row g-4">
             <div class="col-md-3">
                 <div class="movie-poster-container">
-                    <img src="https://media-cache.cinematerial.com/p/500x/tzij2ug6/john-wick-chapter-4-movie-poster.jpg?v=1719548432"
-                         class="img-fluid rounded-3" alt="Filmplakat for John Wick">
+                    <img class="img-fluid rounded-3 movie-poster" alt="Filmplakat">
                     <div class="movie-info-overlay">
-                        <p><strong>Genre:</strong> Action</p>
-                        <p><strong>Duration:</strong> 2t 49m</p>
-                        <p><strong>Age limit:</strong> 11 </p>
-                        <p><strong>Release date:</strong> 10/05/2025</p>
+                        <p><strong>Genre:</strong> <span class="movie-genre"></span></p>
+                        <p><strong>Duration:</strong> <span class="movie-duration"></span></p>
+                        <p><strong>Age limit:</strong> <span class="movie-age-limit"></span></p>
+                        <p><strong>Release date:</strong> <span class="movie-release-date"></span></p>
                         <hr>
-                        <p><strong>Description:</strong><br>
-                            John Wick uncovers a path to defeating The High Table. But before he can earn his freedom,
-                            Wick must face off against a new enemy...</p>
+                        <p><strong>Description:</strong><br><span class="movie-description"></span></p>
                         <hr>
-                        <p><strong>Actors:</strong><br>
-                            Keanu Reeves, Laurence Fishburne, George Georgiou...</p>
+                        <p><strong>Actors:</strong><br><span class="movie-actors"></span></p>
                     </div>
-
                 </div>
             </div>
             <div class="col-md-9">
-
-                <h2>John Wick: Chapter 4</h2>
+                <h2 class="movie-title"></h2>
                 <p class="text-muted">
-                    <span>Duration: 2h 49m</span>
-                    <span class="mx-2">|</span> <span>Age limit: 11</span>
+                    <span>Duration: <span class="movie-duration-text"></span></span>
+                    <span class="mx-2">|</span> <span>Age limit: <span class="movie-age-limit-text"></span></span>
                 </p>
                 <hr class="my-4">
-                <div class="row">
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Mon 29/09</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Tue 30/09</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Wed 01/10</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Thu 02/10</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Fri 03/10</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Sat 04/10</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Sun 05/10</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
+                <div class="row movie-showtimes-container">
                 </div>
             </div>
         </div>
     </div>
-
-
-    <div class="border rounded-3 p-4 mb-4 shadow-sm">
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="movie-poster-container">
-                    <img src="https://m.media-amazon.com/images/M/MV5BNzg3YjVmZGYtOTc5MC00MDdiLTllOTYtZWQ0ODQ1MmMyNTExXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg"
-                         class="img-fluid rounded-3" alt="Filmplakat for John Wick">
-                    <div class="movie-info-overlay">
-                        <p><strong>Genre:</strong> Action</p>
-                        <p><strong>Duration:</strong> 1t 45m</p>
-                        <p><strong>Age limit:</strong> 15 </p>
-                        <p><strong>Release date:</strong> 18/02/2024</p>
-                        <hr>
-                        <p><strong>Description:</strong><br>
-                            A former operative of a powerful organization embarks on a brutal campaign for vengeance.
-                        </p>
-                        <hr>
-                        <p><strong>Actors:</strong><br>
-                            Jason Statham, Emmy Raver-Lampman, Bobby Naderi...</p>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-9">
-
-                <h2>The Beekeeper</h2>
-                <p class="text-muted">
-                    <span>Duration: 1h 45m</span>
-                    <span class="mx-2">|</span> <span>Age limit: 15</span>
-                </p>
-                <hr class="my-4">
-                <div class="row">
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Mon 29/09</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Tue 30/09</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Wed 01/10</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Thu 02/10</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Fri 03/10</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Sat 04/10</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <h6 class="text-center fw-bold text-nowrap">Sun 05/10</h6>
-                        <div class="d-grid gap-2 mt-3">
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 14:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio1 18:00</a>
-                            <a href="#" class="btn btn-light text-nowrap showtime-btn">Bio2 20:00</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+</template>
+<div class="container my-5" id="movie-container">
 </div>
-<!-- MOVIE CONTAINER -->
-
-
-
-
-
-
-
-<div class="modal fade" id="cancelBookingModal" tabindex="-1" aria-labelledby="cancelBookingModalLabel" aria-hidden="true">
+<div class="modal fade" id="cancelBookingModal" tabindex="-1" aria-labelledby="cancelBookingModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
@@ -279,7 +96,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="bookingCodeInput" class="form-label">Booking code</label>
-                            <input type="text" class="form-control" id="bookingCodeInput" placeholder="Enter your code here...">
+                            <input type="text" class="form-control" id="bookingCodeInput"
+                                   placeholder="Enter your code here...">
                         </div>
                     </form>
                 </div>
@@ -308,19 +126,15 @@
     </div>
 </div>
 
-
-
-
-
-
-
-<div class="modal fade" id="seatSelectionModal" tabindex="-1" aria-labelledby="seatSelectionModalLabel" aria-hidden="true">
+<div class="modal fade" id="seatSelectionModal" tabindex="-1" aria-labelledby="seatSelectionModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content bg-dark text-white">
 
             <div class="modal-header border-secondary">
                 <h5 class="modal-title" id="seatSelectionModalLabel">Select Your Seats</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
@@ -351,15 +165,6 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-<!-- FOOTER -->
 <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
 
@@ -373,20 +178,9 @@
 
     </footer>
 </div>
-<!-- FOOTER -->
-
-
-
-
-
-
-
-
-<!-- Bootstrap JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="js/script.js"></script>
-
 
 
 </body>

@@ -96,6 +96,9 @@ public class InitData implements CommandLineRunner {
         movie1.setDescription("Paul Atreides forener sig med Chani og Fremen, mens han søger hævn mod de sammensvorne, der ødelagde hans familie.");
         movie1.setDuration_minutes(166);
         movie1.setAge_rating(11);
+        movie1.setActors("Timothée Chalamet, Zendaya, Rebecca Ferguson");
+        movie1.setGenre("Adventure, Drama, Sci-Fi");
+        movie1.setPoster_url("https://img-cdn.sfanytime.com/COVERM/COVERM_9b838abd-3933-48f6-b6ea-e522d1027711_01.jpg?w=415&ar=0.692&fit=crop&fm=pjpg&s=71f2c5c6a9f32865165cf45e55c962d3");
         movieJpaRepository.save(movie1);
 
         Movie movie2 = new Movie();
@@ -103,6 +106,9 @@ public class InitData implements CommandLineRunner {
         movie2.setDescription("En blikkenslager ved navn Mario rejser gennem et underjordisk labyrint med sin bror, Luigi, for at redde en tilfangetagen prinsesse.");
         movie2.setDuration_minutes(92);
         movie2.setAge_rating(7);
+        movie2.setActors("Chris Pratt, Anya Taylor-Joy, Charlie Day");
+        movie2.setGenre("Animation, Adventure, Comedy");
+        movie2.setPoster_url("https://img-cdn.sfanytime.com/COVERM/COVERM_477fdb52-7d0b-4cdc-9c25-949a8dfbb14b_da.jpg?w=415&ar=0.692&fit=crop&fm=pjpg&s=61c203cbc1a9dc320ea936d4f453d156");
         movieJpaRepository.save(movie2);
         System.out.println("Oprettet 2 film.");
 
