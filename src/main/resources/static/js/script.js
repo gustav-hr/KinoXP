@@ -1,11 +1,13 @@
-// Importer funktionen fra loadings.js
-import { fetchAndRenderShowings } from './showings.js';
+// Importer funktionen
+import { fetchAndRenderShowings, setupWeekNavigation } from './showings.js';
 
-document.addEventListener('DOMContentLoaded', function () {
     const movieContainer = document.getElementById('movie-container');
     const movieTemplate = document.getElementById('movie-template');
     const seatModalElement = document.getElementById('seatSelectionModal');
     const seatModal = new bootstrap.Modal(seatModalElement);
+
+
+ function renderAllMovies() {
 
     // Hent filmdata fra backend
     fetch('/movies')
@@ -16,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(movies => {
+            //tømmer container
+            movieContainer.innerHTML = '';
+
             movies.forEach(movie => {
                 // Klon filmkortets skabelon
                 const movieCard = movieTemplate.content.cloneNode(true);
@@ -56,8 +61,18 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error('Der var et problem med at hente filmene:', error);
             movieContainer.innerHTML = '<p>Kunne ikke indlæse film. Prøv venligst igen senere.</p>';
-        });
+        })
+ }
 
+ document.addEventListener("DOMContentLoaded", () => {
+     renderAllMovies();
+     setupWeekNavigation(renderAllMovies)
+ })
+
+
+
+
+/*
 
     // --- Logik for annullering af booking-modal ---
     const step1 = document.getElementById('modal-step-1');
@@ -81,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
         step1.classList.remove('d-none');
         footer1.classList.remove('d-none');
     });
+
 
 
     // --- Logik for sædevalg-modal ---
@@ -123,3 +139,4 @@ document.querySelectorAll('.dropdown-item[data-bs-toggle="modal"]').forEach(item
         if (toggle) bootstrap.Dropdown.getOrCreateInstance(toggle).hide();
     });
 });
+ */

@@ -74,6 +74,20 @@
         </div>
     </div>
 </template>
+
+<!-- 🎯 START UGE-NAVIGATION: 'Næste Uge' er nu en btn-link 🎯 -->
+<div class="d-flex justify-content-center" id="weekSelector">
+    <div class="d-flex align-items-center mb-3 gap-3">
+
+        <button class="btn btn-link text-secondary btn-sm week-next-btn" id="pastWeek">&lt; Forrige Uge</button>
+
+        <h5 class="m-0 week-display-text text-nowrap" id="currentWeek">(DD/MM - DD/MM)</h5>
+
+        <button class="btn btn-link text-secondary btn-sm week-next-btn" id="comingWeek">Næste Uge &gt;</button>
+    </div>
+</div>
+<!-- 🎯 SLUT UGE-NAVIGATION 🎯 -->
+
 <div class="container my-5" id="movie-container">
 </div>
 <div class="modal fade" id="cancelBookingModal" tabindex="-1" aria-labelledby="cancelBookingModalLabel"
