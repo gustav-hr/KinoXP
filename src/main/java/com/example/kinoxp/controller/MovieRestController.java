@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody; // VIGTIGT: Importér denne
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,8 +28,8 @@ public class MovieRestController {
     }
 
     @PostMapping("/addmovie")
-    public Movie addMovie(Movie movie) {
-        return movieService.saveMovie(movie);
+    public Movie addMovie(@RequestBody Movie movie) { // <<-- @RequestBody LØSER DIT PROBLEM
+        return movieService.saveMovie(movie); // Opdaterer eksisterende film, da 'movie' indeholder movie_id
     }
 
     @DeleteMapping("/deletemovie/{id}")

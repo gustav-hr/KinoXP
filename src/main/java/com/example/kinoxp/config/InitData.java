@@ -1,9 +1,6 @@
 package com.example.kinoxp.config;
 
-import com.example.kinoxp.model.Movie;
-import com.example.kinoxp.model.Seat;
-import com.example.kinoxp.model.Showing;
-import com.example.kinoxp.model.Theatre;
+import com.example.kinoxp.model.*;
 import com.example.kinoxp.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,12 +25,15 @@ public class InitData implements CommandLineRunner {
     private ShowJpaRepository showtimeRepository;
 
     // Tilføj disse, hvis du også vil oprette test-bookinger
-    
+
     @Autowired
     private BookingJpaRepository bookingJpaRepository;
-    
+
     @Autowired
     private ReservedSeatJpaRepository reservedSeatJpaRepository;
+
+    @Autowired
+    private AdminJpaRepository adminJpaRepository;
 
 
     @Override
@@ -130,5 +130,12 @@ public class InitData implements CommandLineRunner {
         showing3.setStart_time(LocalDateTime.now().plusDays(1).withHour(21).withMinute(0).withSecond(0)); // I morgen kl. 21:00
         showtimeRepository.save(showing3);
         System.out.println("Oprettet 3 forestillinger.");
+
+        Admin adm = new Admin();
+        adm.setUsername("admin jensen");
+        adm.setPassword("1234");
+        adminJpaRepository.save(adm);
+        System.out.println("Admin oprettet");
+
     }
 }
