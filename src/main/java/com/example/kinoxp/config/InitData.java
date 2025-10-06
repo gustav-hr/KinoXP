@@ -135,7 +135,7 @@ public class InitData implements CommandLineRunner {
         adm.setUsername("admin jensen");
         adm.setPassword("1234");
         adminJpaRepository.save(adm);
-        System.out.println("Admin oprettet");
+        System.out.println("Admin oprettet oprettet");
 
     }
 }
