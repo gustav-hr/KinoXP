@@ -5,9 +5,15 @@ const pastWeekBtn = document.getElementById('pastWeek');
 const comingWeekBtn = document.getElementById('comingWeek');
 const logoutBtn = document.getElementById('logout-btn');
 
-// NYE variabler til redigering
+// NYE variabler til redigering/oprettelse
 const editMovieModal = document.getElementById('editMovieModal');
 const editMovieForm = document.getElementById('editMovieForm');
+const modalTitleSpan = document.getElementById('modal-movie-title');
+const modalActionTypeSpan = document.getElementById('modal-action-type');
+const saveMovieBtn = document.getElementById('save-movie-btn');
+
+// NY variabel til Tilføj Film knap
+const addMovieBtn = document.getElementById('add-movie-btn');
 
 
 // holder styr på ugen: 0 = denne uge
@@ -164,7 +170,7 @@ export function setupWeekNavigation(renderAllMoviesCallBack) {
 
 }
 
-// --- NY REDIGERINGSLOGIK ---
+// --- NY REDIGERING/OPRETTELSE LOGIK ---
 
 // Konverterer en dato i ISO-format (som fra backend) til en yyyy-MM-dd streng
 function formatDateToInput(isoDateString) {
@@ -176,33 +182,39 @@ function formatDateToInput(isoDateString) {
     return `${year}-${month}-${day}`;
 }
 
-// Håndterer opdatering af filmen via POST kald til backend
+// Håndterer opdatering/oprettelse af filmen via POST kald til backend
 function handleMovieUpdate(event) {
     event.preventDefault();
 
     const form = event.target;
     const formData = new FormData(form);
     const movieData = {};
+    let isCreating = false;
 
     // Byg et objekt ud fra formulardata
     formData.forEach((value, key) => {
         // Konverter numeriske felter
-        if (['duration_minutes', 'age_rating'].includes(key)) {
-            movieData[key] = parseInt(value);
+        if (['movie_id', 'duration_minutes', 'age_rating'].includes(key)) {
+            // movie_id vil være enten et tal (ved redigering) eller en tom streng (ved oprettelse)
+            const numVal = parseInt(value) || 0;
+            movieData[key] = numVal;
+            if (key === 'movie_id' && numVal === 0) {
+                isCreating = true;
+            }
         } else if (key === 'published_date') {
             // Sørg for at datoen sendes i et format backend kan forstå (ISO 8601)
-            // Vi bruger T00:00:00Z for at sikre, at datoen forbliver den samme uanset tidszone
             movieData[key] = new Date(value + 'T00:00:00Z').toISOString();
         } else {
             movieData[key] = value;
         }
     });
 
-    // Sikrer at movie_id er et tal
-    movieData.movie_id = parseInt(movieData.movie_id);
+    const successMessage = isCreating
+        ? `Filmen '${movieData.title}' blev OPRETTET!`
+        : `Filmen '${movieData.title}' blev OPDATERET!`;
 
 
-    fetch(`/addmovie`, { // Endpoint forbliver /addmovie, men @RequestBody sikrer opdatering
+    fetch(`/addmovie`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -223,23 +235,39 @@ function handleMovieUpdate(event) {
             }
             // Opdater filmvisningen for at afspejle ændringerne
             renderAllMovies();
-            alert(`Filmen '${updatedMovie.title}' blev opdateret!`);
+            alert(successMessage);
         })
         .catch(error => {
-            console.error('Fejl ved opdatering af filmen:', error);
+            console.error('Fejl ved opdatering/oprettelse af filmen:', error);
             alert('Kunne ikke gemme ændringer. Se konsollen for detaljer.');
         });
 }
 
-// Tilføj event listener til formularen
+// Event listener for formularen
 editMovieForm.addEventListener('submit', handleMovieUpdate);
+
+
+// --- NY FUNKTION: HÅNDTER KLIK PÅ "TILFØJ FILM" ---
+addMovieBtn.addEventListener('click', () => {
+    // 1. Nulstil formularen
+    editMovieForm.reset();
+
+    // 2. Nulstil det skjulte movie_id for at sikre INSERT i backend
+    document.getElementById('edit-movie-id').value = 0;
+
+    // 3. Opdater modalens titel og knaptekst
+    modalActionTypeSpan.textContent = 'Tilføj Ny';
+    modalTitleSpan.textContent = ''; // Titlen er ukendt
+    saveMovieBtn.textContent = 'Opret Film';
+});
 
 
 // --- RENDER LOGIK (Opdateret) ---
 
 function renderAllMovies() {
 
-    // Hent filmdata fra backend
+    // ... (resten af fetch-logikken) ...
+
     fetch('/movies')
         .then(response => {
             if (!response.ok) {
@@ -267,7 +295,7 @@ function renderAllMovies() {
                 const durationTextEl = movieCard.querySelector('.movie-duration-text');
                 const ageLimitTextEl = movieCard.querySelector('.movie-age-limit-text');
                 const showtimesContainer = movieCard.querySelector('.movie-showtimes-container');
-                // NY: Redigeringsknap og filmkort div
+                // Redigeringsknap og filmkort div
                 const editButton = movieCard.querySelector('.edit-movie-btn');
                 const movieCardDiv = movieCard.querySelector('.border.rounded-3.p-4.mb-4.shadow-sm');
 
@@ -286,11 +314,10 @@ function renderAllMovies() {
                 descriptionEl.textContent = movie.description;
                 actorsEl.textContent = movie.actors;
 
-                // NY: Tilføj event listener til Rediger knappen
+                // Tilføj event listener til Rediger knappen
                 editButton.addEventListener('click', () => {
-                    // Sæt filmdata ind i modal-felterne
+                    // Sæt data ind i modal-felterne
                     document.getElementById('edit-movie-id').value = movie.movie_id;
-                    document.getElementById('modal-movie-title').textContent = movie.title;
                     document.getElementById('edit-title').value = movie.title;
                     document.getElementById('edit-description').value = movie.description;
                     document.getElementById('edit-duration-minutes').value = movie.duration_minutes;
@@ -298,10 +325,12 @@ function renderAllMovies() {
                     document.getElementById('edit-poster-url').value = movie.poster_url;
                     document.getElementById('edit-actors').value = movie.actors;
                     document.getElementById('edit-genre').value = movie.genre;
-                    // Dato skal formateres til yyyy-MM-dd for input type="date"
                     document.getElementById('edit-published-date').value = formatDateToInput(movie.published_date);
 
-                    // Modal åbnes automatisk af Bootstrap via data-bs-target
+                    // Opdater modalens titel og knaptekst til redigering
+                    modalActionTypeSpan.textContent = 'Rediger';
+                    modalTitleSpan.textContent = movie.title;
+                    saveMovieBtn.textContent = 'Gem Ændringer';
                 });
 
                 // Kald funktionen fra showings.js for at hente og vise forestillinger
@@ -321,6 +350,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderAllMovies();
     setupWeekNavigation(renderAllMovies);
 
-    // Initialiser Bootstrap modal
+    // Initialiser Bootstrap modal (ikke strengt nødvendigt, men god praksis)
     new bootstrap.Modal(editMovieModal);
 })

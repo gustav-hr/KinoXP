@@ -19,7 +19,9 @@
 <nav class="navbar bg-body-tertiary rounded mb-3" aria-label="Simple navbar">
   <div class="container">
 
-    <a class="navbar-brand mx-auto" id="logo" href="#">Kino</a>
+    <a class="navbar-brand me-auto" id="logo" href="#">Kino</a> <button class="btn btn-success me-2" type="button" id="add-movie-btn" data-bs-toggle="modal" data-bs-target="#editMovieModal">
+    Tilføj Film
+  </button>
 
     <button class="btn btn-outline-danger" type="button" id="logout-btn">
       Log out
@@ -49,7 +51,7 @@
         <div class="d-flex justify-content-between align-items-center mb-2">
           <h2 class="movie-title mb-0"></h2>
           <button class="btn btn-primary btn-sm edit-movie-btn" data-bs-toggle="modal" data-bs-target="#editMovieModal">
-            Edit movie
+            Rediger Film
           </button>
         </div>
         <p class="text-muted">
@@ -81,7 +83,9 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editMovieModalLabel">Rediger Film: <span id="modal-movie-title"></span></h5>
+        <h5 class="modal-title" id="editMovieModalLabel">
+          <span id="modal-action-type">Rediger</span> Film: <span id="modal-movie-title"></span>
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
