@@ -61,6 +61,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'KinoXP'
+          app-name: 'Kino-XP'
           slot-name: 'Production'
           package: './java-app/app.jar'
