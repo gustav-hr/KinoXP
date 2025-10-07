@@ -1,5 +1,6 @@
 package com.example.kinoxp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class Showing {
     private int show_id;
     @ManyToOne
     @JoinColumn(name = "movie_id")
+    @JsonIgnore
     private Movie movie;
     @ManyToOne
     @JoinColumn(name = "theatre_id")

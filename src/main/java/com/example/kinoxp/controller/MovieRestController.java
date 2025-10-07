@@ -3,11 +3,7 @@ package com.example.kinoxp.controller;
 import com.example.kinoxp.model.Movie;
 import com.example.kinoxp.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody; // VIGTIGT: Importér denne
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +19,7 @@ public class MovieRestController {
     }
 
     @GetMapping("/movie/{id}")
-    public Movie getMovieById(int id) {
+    public Movie getMovieById(@PathVariable int id) {
         return movieService.findMovieById(id).orElse(null);
     }
 
@@ -33,7 +29,7 @@ public class MovieRestController {
     }
 
     @DeleteMapping("/deletemovie/{id}")
-    public void deleteMovie(int id) {
+    public void deleteMovie(@PathVariable int id) {
         movieService.deleteMovie(id);
     }
 

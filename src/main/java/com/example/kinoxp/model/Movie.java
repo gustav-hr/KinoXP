@@ -1,13 +1,12 @@
 package com.example.kinoxp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,14 +25,11 @@ public class Movie {
     private String genre;
     private Date published_date;
 
-    public Movie() {}
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Showing> showings = new ArrayList<>();
 
-
-
-
-
-
-
+    public Movie() {
+    }
 
 
 }

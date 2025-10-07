@@ -228,7 +228,32 @@ addMovieBtn.addEventListener('click', () => {
     saveMovieBtn.textContent = 'Opret Film';
 });
 
-// --- NY SHOWING LOGIK ---
+// --- SLET FILM LOGIK (NY FUNKTION) ---
+
+function handleDeleteMovie(movieId, movieTitle) {
+    if (confirm(`Er du SIKKER på, at du vil slette filmen: "${movieTitle}"? Dette sletter også alle dens forestillinger!`)) {
+        fetch(`/deletemovie/${movieId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    // Tjek for 204 No Content, som er normalt ved successfuld DELETE
+                    if (response.status !== 204) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                }
+                // Film slettet succesfuldt
+                alert(`Filmen '${movieTitle}' blev slettet.`);
+                renderAllMovies(); // Genindlæs alle film for at opdatere listen
+            })
+            .catch(error => {
+                console.error('Fejl ved sletning af filmen:', error);
+                alert('Kunne ikke slette filmen. Se konsollen for detaljer.');
+            });
+    }
+}
+
+// --- NY SHOWING LOGIK (Uændret) ---
 
 async function fetchTheatres() {
     try {
@@ -337,11 +362,14 @@ function renderAllMovies() {
                 const showtimesContainer = movieCard.querySelector('.movie-showtimes-container');
                 const editButton = movieCard.querySelector('.edit-movie-btn');
 
-                // NY: Hent knappen til at tilføje showing
+                // Hent knappen til at tilføje showing
                 const addShowingButton = movieCard.querySelector('.add-showing-btn');
 
+                // NY: Hent knappen til at slette film
+                const deleteButton = movieCard.querySelector('.delete-movie-btn');
 
-                // Udfyld elementerne... (resten af feltudfyldningen)
+
+                // Udfyld elementerne...
                 movieCardDiv.dataset.movieId = movie.movie_id;
                 titleEl.textContent = movie.title;
                 posterEl.src = movie.poster_url;
@@ -375,9 +403,14 @@ function renderAllMovies() {
                     saveMovieBtn.textContent = 'Gem Ændringer';
                 });
 
-                // NY: Tilføj event listener til Tilføj Forestilling knappen
+                // Tilføj event listener til Tilføj Forestilling knappen
                 addShowingButton.addEventListener('click', () => {
                     handleAddShowing(movie.title, movie.movie_id);
+                });
+
+                // NY: Tilføj event listener til Slet knappen
+                deleteButton.addEventListener('click', () => {
+                    handleDeleteMovie(movie.movie_id, movie.title);
                 });
 
 
