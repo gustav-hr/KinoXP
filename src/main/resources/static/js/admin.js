@@ -352,4 +352,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Initialiser Bootstrap modal (ikke strengt nødvendigt, men god praksis)
     new bootstrap.Modal(editMovieModal);
+
+    // Lyt efter klik på log-ud-knappen
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            console.log('Logger ud... Omdirigerer til login siden.');
+            window.location.href = 'login'; // Send brugeren til login.html
+        });
+    }
 })
