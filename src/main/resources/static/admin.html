@@ -16,19 +16,33 @@
 <body>
 
 
+
 <nav class="navbar bg-body-tertiary rounded mb-3" aria-label="Simple navbar">
   <div class="container">
 
-    <a class="navbar-brand me-auto" id="logo" href="#">Kino</a> <button class="btn btn-success me-2" type="button" id="add-movie-btn" data-bs-toggle="modal" data-bs-target="#editMovieModal">
-    Tilføj Film
-  </button>
+    <div class="invisible">
+      <div class="d-flex flex-column gap-1">
+        <button class="btn btn-success btn-sm" type="button">Add Movie</button>
+        <button class="btn btn-outline-danger btn-sm" type="button">Log out</button>
+      </div>
+    </div>
 
-    <button class="btn btn-outline-danger" type="button" id="logout-btn">
-      Log out
-    </button>
+    <a class="navbar-brand mx-auto" id="logo" href="#">Kino</a>
+
+    <div class="d-flex flex-column gap-1">
+      <button class="btn btn-outline-danger btn-sm" type="button" id="logout-btn">
+        Log out
+      </button>
+      <button class="btn btn-outline-primary btn-sm" type="button" id="add-movie-btn" data-bs-toggle="modal" data-bs-target="#editMovieModal">
+        Add Movie
+      </button>
+    </div>
   </div>
-
 </nav>
+
+
+
+
 <template id="movie-template">
   <div class="border rounded-3 p-4 mb-4 shadow-sm" data-movie-id="">
     <div class="row g-4">
@@ -50,8 +64,8 @@
       <div class="col-md-9">
         <div class="d-flex justify-content-between align-items-center mb-2">
           <h2 class="movie-title mb-0"></h2>
-          <button class="btn btn-primary btn-sm edit-movie-btn" data-bs-toggle="modal" data-bs-target="#editMovieModal">
-            Rediger Film
+          <button class="btn btn-warning btn-sm edit-movie-btn" data-bs-toggle="modal" data-bs-target="#editMovieModal">
+            Edit Movie
           </button>
         </div>
         <p class="text-muted">
