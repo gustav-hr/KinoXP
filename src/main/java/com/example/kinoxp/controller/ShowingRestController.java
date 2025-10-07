@@ -1,7 +1,9 @@
 package com.example.kinoxp.controller;
 
+import com.example.kinoxp.model.Movie;
 import com.example.kinoxp.model.Showing;
 import com.example.kinoxp.model.Theatre;
+import com.example.kinoxp.repository.MovieJpaRepository;
 import com.example.kinoxp.service.ShowingService;
 import com.example.kinoxp.service.TheatreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,6 @@ public class ShowingRestController {
 
     @Autowired
     TheatreService theatreService;
-
 
     @GetMapping("/showings")
     public List<Showing> getShowings() {
@@ -38,7 +39,6 @@ public class ShowingRestController {
     public List<Theatre> getTheatres() {
         return theatreService.findAllTheatres();
     }
-
     @PostMapping("/addshowing")
     public Showing addShowing(@RequestBody Showing showing) {
         return showingService.saveShowing(showing);
