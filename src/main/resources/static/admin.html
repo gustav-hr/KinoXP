@@ -16,32 +16,19 @@
 <body>
 
 
-
 <nav class="navbar bg-body-tertiary rounded mb-3" aria-label="Simple navbar">
   <div class="container">
 
-    <div class="invisible">
-      <div class="d-flex flex-column gap-1">
-        <button class="btn btn-success btn-sm" type="button">Add Movie</button>
-        <button class="btn btn-outline-danger btn-sm" type="button">Log out</button>
-      </div>
-    </div>
+    <a class="navbar-brand me-auto" id="logo" href="#">Kino</a>
 
-    <a class="navbar-brand mx-auto" id="logo" href="#">Kino</a>
-
-    <div class="d-flex flex-column gap-1">
-      <button class="btn btn-outline-danger btn-sm" type="button" id="logout-btn">
-        Log out
-      </button>
-      <button class="btn btn-outline-primary btn-sm" type="button" id="add-movie-btn" data-bs-toggle="modal" data-bs-target="#editMovieModal">
-        Add Movie
-      </button>
-    </div>
+    <button class="btn btn-outline-danger me-2" type="button" id="logout-btn">
+      Log out
+    </button>
+    <button class="btn btn-success" type="button" id="add-movie-btn" data-bs-toggle="modal" data-bs-target="#editMovieModal">
+      Tilføj Film
+    </button>
   </div>
 </nav>
-
-
-
 
 <template id="movie-template">
   <div class="border rounded-3 p-4 mb-4 shadow-sm" data-movie-id="">
@@ -64,9 +51,14 @@
       <div class="col-md-9">
         <div class="d-flex justify-content-between align-items-center mb-2">
           <h2 class="movie-title mb-0"></h2>
-          <button class="btn btn-warning btn-sm edit-movie-btn" data-bs-toggle="modal" data-bs-target="#editMovieModal">
-            Edit Movie
-          </button>
+          <div>
+            <button class="btn btn-info btn-sm me-2 add-showing-btn" data-bs-toggle="modal" data-bs-target="#addShowingModal">
+              Tilføj Forestilling
+            </button>
+            <button class="btn btn-warning btn-sm edit-movie-btn" data-bs-toggle="modal" data-bs-target="#editMovieModal">
+              Rediger Film
+            </button>
+          </div>
         </div>
         <p class="text-muted">
           <span>Duration: <span class="movie-duration-text"></span></span>
@@ -82,17 +74,51 @@
 
 <div class="d-flex justify-content-center" id="weekSelector">
   <div class="d-flex align-items-center mb-3 gap-3">
-
     <button class="btn btn-link text-secondary btn-sm week-next-btn" id="pastWeek">&lt; Forrige Uge</button>
-
     <h5 class="m-0 week-display-text text-nowrap" id="currentWeek">(DD/MM - DD/MM)</h5>
-
     <button class="btn btn-link text-secondary btn-sm week-next-btn" id="comingWeek">Næste Uge &gt;</button>
   </div>
 </div>
+
 <div class="container my-5" id="movie-container">
 </div>
 
+<div class="modal fade" id="addShowingModal" tabindex="-1" aria-labelledby="addShowingModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addShowingModalLabel">Tilføj Forestilling til: <span id="showing-movie-title"></span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addShowingForm">
+          <input type="hidden" id="showing-movie-id" name="movie_id">
+
+          <div class="mb-3">
+            <label for="showing-date" class="form-label">Dato</label>
+            <input type="date" class="form-control" id="showing-date" name="showing_date" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="showing-time" class="form-label">Tidspunkt (klokken)</label>
+            <input type="time" class="form-control" id="showing-time" name="showing_time" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="showing-theatre" class="form-label">Vælg Sal</label>
+            <select class="form-select" id="showing-theatre" name="theatre_id" required>
+            </select>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
+        <button type="submit" form="addShowingForm" class="btn btn-primary">Opret Forestilling</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="editMovieModal" tabindex="-1" aria-labelledby="editMovieModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -105,7 +131,6 @@
       <div class="modal-body">
         <form id="editMovieForm">
           <input type="hidden" id="edit-movie-id" name="movie_id">
-
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="edit-title" class="form-label">Titel</label>
@@ -116,7 +141,6 @@
               <input type="url" class="form-control" id="edit-poster-url" name="poster_url" required>
             </div>
           </div>
-
           <div class="mb-3">
             <label for="edit-description" class="form-label">Beskrivelse</label>
             <textarea class="form-control" id="edit-description" name="description" rows="3" required></textarea>
@@ -147,7 +171,6 @@
               <input type="date" class="form-control" id="edit-published-date" name="published_date" required>
             </div>
           </div>
-
         </form>
       </div>
       <div class="modal-footer">
@@ -157,6 +180,8 @@
     </div>
   </div>
 </div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/admin.js" type="module"></script>
 

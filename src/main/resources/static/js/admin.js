@@ -5,41 +5,41 @@ const pastWeekBtn = document.getElementById('pastWeek');
 const comingWeekBtn = document.getElementById('comingWeek');
 const logoutBtn = document.getElementById('logout-btn');
 
-// NYE variabler til redigering/oprettelse
+// Variabler til redigering/oprettelse af film
 const editMovieModal = document.getElementById('editMovieModal');
 const editMovieForm = document.getElementById('editMovieForm');
 const modalTitleSpan = document.getElementById('modal-movie-title');
 const modalActionTypeSpan = document.getElementById('modal-action-type');
 const saveMovieBtn = document.getElementById('save-movie-btn');
-
-// NY variabel til Tilføj Film knap
 const addMovieBtn = document.getElementById('add-movie-btn');
 
+// NYE variabler til SHOWING
+const addShowingModal = document.getElementById('addShowingModal');
+const addShowingForm = document.getElementById('addShowingForm');
+const showingMovieTitleSpan = document.getElementById('showing-movie-title');
+const showingTheatreSelect = document.getElementById('showing-theatre');
 
 // holder styr på ugen: 0 = denne uge
 let currentWeekOffset = 0;
 
-// --- UGE-LOGIK OG VISNING ---
+// --- UGE-LOGIK OG VISNING (Ingen ændringer her) ---
+// (getWeekDates, updateWeekHeader, fetchAndRenderShowings, setupWeekNavigation)
 
 function getWeekDates(weekOffset) {
     const today = new Date();
-    // juster startdato baseret på offset
-    today.setDate(today.getDate() + (weekOffset * 7))
+    today.setDate(today.getDate() + (weekOffset * 7));
     const monday = new Date(today);
 
-    let dayOfWeek = monday.getDay(); // 0 (Søn) til 6 (Lør)
-    // Justering: Søndag (0) til 7
+    let dayOfWeek = monday.getDay();
     if (dayOfWeek === 0) {
         dayOfWeek = 7;
     }
     let diffToMonday = dayOfWeek - 1;
 
-    // sæt datoen til ugens mandag og søndag
     monday.setDate(monday.getDate() - diffToMonday);
     const sunday = new Date(monday);
     sunday.setDate(sunday.getDate() + 6);
 
-    // array med alle ugens 7 datoer
     const weekDates = [];
     let currentDay = new Date(monday);
     for (let i = 0; i < 7; i++) {
@@ -50,26 +50,22 @@ function getWeekDates(weekOffset) {
     return {monday, sunday, dates: weekDates};
 }
 
-// Opdaterer overskiften (currentWeekElement) med datointervallet.
 function updateWeekHeader() {
-    const {monday, sunday} = getWeekDates(currentWeekOffset)
-    const options = {day: '2-digit', month: '2-digit', year: '2-digit'}
-    const formattedMonday = monday.toLocaleDateString('da-DK', options)
-    const formattedSunday = sunday.toLocaleDateString('da-DK', options)
+    const {monday, sunday} = getWeekDates(currentWeekOffset);
+    const options = {day: '2-digit', month: '2-digit', year: '2-digit'};
+    const formattedMonday = monday.toLocaleDateString('da-DK', options);
+    const formattedSunday = sunday.toLocaleDateString('da-DK', options);
 
     if (currentWeekElement) {
-        currentWeekElement.textContent = `${formattedMonday} - ${formattedSunday}`
+        currentWeekElement.textContent = `${formattedMonday} - ${formattedSunday}`;
     }
 }
-
-// Eksporter en funktion, der henter og render showings
 
 export function fetchAndRenderShowings(movie, showingsContainer) {
     showingsContainer.innerHTML = '';
 
-    const {dates: weekDates} = getWeekDates(currentWeekOffset)
+    const {dates: weekDates} = getWeekDates(currentWeekOffset);
 
-    // Brug filmens ID til at hente showings fra backend
     fetch(`/showings/movie/${movie.movie_id}`)
         .then(response => {
             if (!response.ok) {
@@ -78,11 +74,9 @@ export function fetchAndRenderShowings(movie, showingsContainer) {
             return response.json();
         })
         .then(showings => {
-            //Gruppér showings efter dato
             const showingsByDate = {};
             showings.forEach(showing => {
                 const showingDate = new Date(showing.start_time);
-                // Opret en nøgle i formatet dd/mm/yy
                 const dateKey = showingDate.toLocaleDateString('da-DK', {
                     day: '2-digit',
                     month: '2-digit',
@@ -95,9 +89,6 @@ export function fetchAndRenderShowings(movie, showingsContainer) {
                 showingsByDate[dateKey].push(showing);
             });
 
-
-            // Opret HTML for hver af ugens dage
-
             weekDates.forEach(dayDate => {
                 const showtimesCol = document.createElement('div');
                 showtimesCol.classList.add('col');
@@ -108,25 +99,20 @@ export function fetchAndRenderShowings(movie, showingsContainer) {
                     year: '2-digit'
                 });
 
-                // Datooverskirft
                 const dateHeader = document.createElement('h6');
                 dateHeader.classList.add('text-center', 'fw-bold', 'text-nowrap');
                 dateHeader.textContent = dateKey;
 
-                // Knapcontainer
                 const showtimeButtonsContainer = document.createElement('div');
                 showtimeButtonsContainer.classList.add('d-grid', 'gap-2', 'mt-3');
 
-                // showings på given dag
                 const dailyShowings = showingsByDate[dateKey] || [];
 
-                // Opret en knap for hver showing på en given dag
                 dailyShowings.forEach(showing => {
                     const button = document.createElement('a');
                     button.href = '#';
                     button.classList.add('btn', 'btn-light', 'text-nowrap', 'showtime-btn');
 
-                    // Formater tidspunktet
                     const time = new Date(showing.start_time).toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit'
@@ -166,23 +152,18 @@ export function setupWeekNavigation(renderAllMoviesCallBack) {
         updateWeekHeader();
         pastWeekBtn.disable = false;
         renderAllMoviesCallBack();
-    })
-
+    });
 }
+// --- REDIGERING/OPRETTELSE AF FILM LOGIK (Uændret) ---
 
-// --- NY REDIGERING/OPRETTELSE LOGIK ---
-
-// Konverterer en dato i ISO-format (som fra backend) til en yyyy-MM-dd streng
 function formatDateToInput(isoDateString) {
     const date = new Date(isoDateString);
-    // Vi skal bruge YYYY-MM-DD for <input type="date">
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Måneder er 0-indekseret
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
 
-// Håndterer opdatering/oprettelse af filmen via POST kald til backend
 function handleMovieUpdate(event) {
     event.preventDefault();
 
@@ -191,18 +172,14 @@ function handleMovieUpdate(event) {
     const movieData = {};
     let isCreating = false;
 
-    // Byg et objekt ud fra formulardata
     formData.forEach((value, key) => {
-        // Konverter numeriske felter
         if (['movie_id', 'duration_minutes', 'age_rating'].includes(key)) {
-            // movie_id vil være enten et tal (ved redigering) eller en tom streng (ved oprettelse)
             const numVal = parseInt(value) || 0;
             movieData[key] = numVal;
             if (key === 'movie_id' && numVal === 0) {
                 isCreating = true;
             }
         } else if (key === 'published_date') {
-            // Sørg for at datoen sendes i et format backend kan forstå (ISO 8601)
             movieData[key] = new Date(value + 'T00:00:00Z').toISOString();
         } else {
             movieData[key] = value;
@@ -228,12 +205,10 @@ function handleMovieUpdate(event) {
             return response.json();
         })
         .then(updatedMovie => {
-            // Luk modalen
             const modal = bootstrap.Modal.getInstance(editMovieModal);
             if (modal) {
                 modal.hide();
             }
-            // Opdater filmvisningen for at afspejle ændringerne
             renderAllMovies();
             alert(successMessage);
         })
@@ -243,30 +218,105 @@ function handleMovieUpdate(event) {
         });
 }
 
-// Event listener for formularen
 editMovieForm.addEventListener('submit', handleMovieUpdate);
 
-
-// --- NY FUNKTION: HÅNDTER KLIK PÅ "TILFØJ FILM" ---
 addMovieBtn.addEventListener('click', () => {
-    // 1. Nulstil formularen
     editMovieForm.reset();
-
-    // 2. Nulstil det skjulte movie_id for at sikre INSERT i backend
     document.getElementById('edit-movie-id').value = 0;
-
-    // 3. Opdater modalens titel og knaptekst
     modalActionTypeSpan.textContent = 'Tilføj Ny';
-    modalTitleSpan.textContent = ''; // Titlen er ukendt
+    modalTitleSpan.textContent = '';
     saveMovieBtn.textContent = 'Opret Film';
 });
 
+// --- NY SHOWING LOGIK ---
 
-// --- RENDER LOGIK (Opdateret) ---
+async function fetchTheatres() {
+    try {
+        const response = await fetch('/theatres');
+        if (!response.ok) throw new Error('Kunne ikke hente teatersale');
+        return await response.json();
+    } catch (error) {
+        console.error('Fejl ved hentning af teatersale:', error);
+        return [];
+    }
+}
+
+async function populateTheatreDropdown() {
+    const theatres = await fetchTheatres();
+    showingTheatreSelect.innerHTML = '<option value="" disabled selected>Vælg en sal</option>';
+
+    theatres.forEach(theatre => {
+        const option = document.createElement('option');
+        option.value = theatre.theatre_id;
+        option.textContent = `Sal ${theatre.theatre_id} (${theatre.name || 'Ukendt'}) - ${theatre.seats} pladser`;
+        showingTheatreSelect.appendChild(option);
+    });
+}
+
+function handleAddShowing(movieTitle, movieId) {
+    showingMovieTitleSpan.textContent = movieTitle;
+    document.getElementById('showing-movie-id').value = movieId;
+    addShowingForm.reset();
+
+    // Sætter min-dato til i dag
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('showing-date').min = today;
+
+    populateTheatreDropdown();
+}
+
+addShowingForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const movieId = document.getElementById('showing-movie-id').value;
+    const dateStr = document.getElementById('showing-date').value;
+    const timeStr = document.getElementById('showing-time').value;
+    const theatreId = document.getElementById('showing-theatre').value;
+
+    // Kombiner dato og tidspunkt til ISO-format for backend (LocalDateTime)
+    // Starter med YYYY-MM-DDTHH:MM:SS
+    const startTimeISO = `${dateStr}T${timeStr}:00`;
+
+    const showingData = {
+        // Bemærk: Backend forventer Movie og Theatre objekter, men Spring kan
+        // ofte håndtere kun ID'et, hvis du sætter det som et nested objekt.
+        // Vi sender det som nested ID for at matche JPA's forventning.
+        movie: { movie_id: parseInt(movieId) },
+        theatre: { theatre_id: parseInt(theatreId) },
+        start_time: startTimeISO
+    };
+
+    fetch('/addshowing', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(showingData)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(newShowing => {
+            const modal = bootstrap.Modal.getInstance(addShowingModal);
+            if (modal) {
+                modal.hide();
+            }
+            renderAllMovies(); // Genindlæs film for at vise den nye showing
+            alert(`Ny forestilling for ${showingMovieTitleSpan.textContent} i sal ${theatreId} blev oprettet!`);
+        })
+        .catch(error => {
+            console.error('Fejl ved oprettelse af forestilling:', error);
+            alert('Kunne ikke oprette forestilling. Se konsollen for detaljer.');
+        });
+});
+
+
+// --- RENDER LOGIK (Opdateret med ny knap event listener) ---
 
 function renderAllMovies() {
-
-    // ... (resten af fetch-logikken) ...
 
     fetch('/movies')
         .then(response => {
@@ -276,47 +326,40 @@ function renderAllMovies() {
             return response.json();
         })
         .then(movies => {
-            //tømmer container
             movieContainer.innerHTML = '';
 
             movies.forEach(movie => {
-                // Klon filmkortets skabelon
                 const movieCard = movieTemplate.content.cloneNode(true);
 
-                // Find elementerne i det klonede kort
                 const titleEl = movieCard.querySelector('.movie-title');
                 const posterEl = movieCard.querySelector('.movie-poster');
-                const genreEl = movieCard.querySelector('.movie-genre');
-                const durationEl = movieCard.querySelector('.movie-duration');
-                const ageLimitEl = movieCard.querySelector('.movie-age-limit');
-                const releaseDateEl = movieCard.querySelector('.movie-release-date');
-                const descriptionEl = movieCard.querySelector('.movie-description');
-                const actorsEl = movieCard.querySelector('.movie-actors');
-                const durationTextEl = movieCard.querySelector('.movie-duration-text');
-                const ageLimitTextEl = movieCard.querySelector('.movie-age-limit-text');
-                const showtimesContainer = movieCard.querySelector('.movie-showtimes-container');
-                // Redigeringsknap og filmkort div
-                const editButton = movieCard.querySelector('.edit-movie-btn');
                 const movieCardDiv = movieCard.querySelector('.border.rounded-3.p-4.mb-4.shadow-sm');
+                const showtimesContainer = movieCard.querySelector('.movie-showtimes-container');
+                const editButton = movieCard.querySelector('.edit-movie-btn');
+
+                // NY: Hent knappen til at tilføje showing
+                const addShowingButton = movieCard.querySelector('.add-showing-btn');
 
 
-                // Udfyld elementerne med data fra filmen
-                movieCardDiv.dataset.movieId = movie.movie_id; // Sæt film ID på kortet
+                // Udfyld elementerne... (resten af feltudfyldningen)
+                movieCardDiv.dataset.movieId = movie.movie_id;
                 titleEl.textContent = movie.title;
                 posterEl.src = movie.poster_url;
-                posterEl.alt = `Filmplakat for ${movie.title}`;
-                genreEl.textContent = movie.genre;
-                durationEl.textContent = `${movie.duration_minutes}m`;
-                durationTextEl.textContent = `${movie.duration_minutes}m`;
-                ageLimitEl.textContent = movie.age_rating;
-                ageLimitTextEl.textContent = movie.age_rating;
-                releaseDateEl.textContent = new Date(movie.published_date).toLocaleDateString();
-                descriptionEl.textContent = movie.description;
-                actorsEl.textContent = movie.actors;
 
-                // Tilføj event listener til Rediger knappen
+                // ... (resten af udfyldning af movie info)
+                movieCard.querySelector('.movie-genre').textContent = movie.genre;
+                movieCard.querySelector('.movie-duration').textContent = `${movie.duration_minutes}m`;
+                movieCard.querySelector('.movie-duration-text').textContent = `${movie.duration_minutes}m`;
+                movieCard.querySelector('.movie-age-limit').textContent = movie.age_rating;
+                movieCard.querySelector('.movie-age-limit-text').textContent = movie.age_rating;
+                movieCard.querySelector('.movie-release-date').textContent = new Date(movie.published_date).toLocaleDateString();
+                movieCard.querySelector('.movie-description').textContent = movie.description;
+                movieCard.querySelector('.movie-actors').textContent = movie.actors;
+
+
+                // Tilføj event listener til Rediger knappen (Uændret)
                 editButton.addEventListener('click', () => {
-                    // Sæt data ind i modal-felterne
+                    // ... (sætter værdier i editMovie modal) ...
                     document.getElementById('edit-movie-id').value = movie.movie_id;
                     document.getElementById('edit-title').value = movie.title;
                     document.getElementById('edit-description').value = movie.description;
@@ -327,37 +370,38 @@ function renderAllMovies() {
                     document.getElementById('edit-genre').value = movie.genre;
                     document.getElementById('edit-published-date').value = formatDateToInput(movie.published_date);
 
-                    // Opdater modalens titel og knaptekst til redigering
                     modalActionTypeSpan.textContent = 'Rediger';
                     modalTitleSpan.textContent = movie.title;
                     saveMovieBtn.textContent = 'Gem Ændringer';
                 });
 
-                // Kald funktionen fra showings.js for at hente og vise forestillinger
-                fetchAndRenderShowings(movie, showtimesContainer);
+                // NY: Tilføj event listener til Tilføj Forestilling knappen
+                addShowingButton.addEventListener('click', () => {
+                    handleAddShowing(movie.title, movie.movie_id);
+                });
 
-                // Tilføj det udfyldte filmkort til containeren
+
+                fetchAndRenderShowings(movie, showtimesContainer);
                 movieContainer.appendChild(movieCard);
             });
         })
         .catch(error => {
             console.error('Der var et problem med at hente filmene:', error);
             movieContainer.innerHTML = '<p>Kunne ikke indlæse film. Prøv venligst igen senere.</p>';
-        })
+        });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     renderAllMovies();
     setupWeekNavigation(renderAllMovies);
 
-    // Initialiser Bootstrap modal (ikke strengt nødvendigt, men god praksis)
     new bootstrap.Modal(editMovieModal);
+    new bootstrap.Modal(addShowingModal); // Initialiser den nye modal
 
-    // Lyt efter klik på log-ud-knappen
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             console.log('Logger ud... Omdirigerer til login siden.');
-            window.location.href = 'login'; // Send brugeren til login.html
+            window.location.href = 'login';
         });
     }
-})
+});
