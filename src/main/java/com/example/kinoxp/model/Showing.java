@@ -17,7 +17,6 @@ public class Showing {
     private int show_id;
     @ManyToOne
     @JoinColumn(name = "movie_id")
-    @JsonIgnore
     private Movie movie;
     @ManyToOne
     @JoinColumn(name = "theatre_id")
