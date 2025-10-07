@@ -118,7 +118,7 @@ export function fetchAndRenderShowings(movie, showingsContainer) {
                         minute: '2-digit'
                     });
 
-                    button.textContent = `Sal ${showing.theatre.theatre_id} kl. ${time}`;
+                    button.textContent = `Sal ${showing.theatre.theatreId} kl. ${time}`;
                     showtimeButtonsContainer.appendChild(button);
                 });
 
@@ -272,8 +272,8 @@ async function populateTheatreDropdown() {
 
     theatres.forEach(theatre => {
         const option = document.createElement('option');
-        option.value = theatre.theatre_id;
-        option.textContent = `Sal ${theatre.theatre_id} (${theatre.name || 'Ukendt'}) - ${theatre.seats} pladser`;
+        option.value = theatre.theatreId;
+        option.textContent = `Sal ${theatre.theatreId} (${theatre.name || 'Ukendt'}) - ${theatre.capacity} pladser`;
         showingTheatreSelect.appendChild(option);
     });
 }
@@ -307,7 +307,7 @@ addShowingForm.addEventListener('submit', (event) => {
         // ofte håndtere kun ID'et, hvis du sætter det som et nested objekt.
         // Vi sender det som nested ID for at matche JPA's forventning.
         movie: { movie_id: parseInt(movieId) },
-        theatre: { theatre_id: parseInt(theatreId) },
+        theatre: { theatreId: parseInt(theatreId) },
         start_time: startTimeISO
     };
 
