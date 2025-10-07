@@ -14,7 +14,8 @@ public class Showing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int show_id;
+    @Column(name = "show_id")
+    private int showId;
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
@@ -23,6 +24,7 @@ public class Showing {
     private Theatre theatre;
     private LocalDateTime start_time;
 
-    public Showing() {}
+    public Showing() {
+    }
 
 }

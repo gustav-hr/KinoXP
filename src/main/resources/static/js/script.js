@@ -52,6 +52,9 @@ import { fetchAndRenderShowings, setupWeekNavigation } from './showings.js';
                 actorsEl.textContent = movie.actors;
 
                 // Kald funktionen fra showings.js for at hente og vise forestillinger
+                console.log("yaaaaaaaaaaaaaaaaaaank")
+                console.log("Movie:", movie)
+                console.log("Showtimecontainer:",showtimesContainer)
                 fetchAndRenderShowings(movie, showtimesContainer);
 
                 // Tilføj det udfyldte filmkort til containeren
@@ -72,71 +75,6 @@ import { fetchAndRenderShowings, setupWeekNavigation } from './showings.js';
 
 
 
-/*
-
-    // --- Logik for annullering af booking-modal ---
-    const step1 = document.getElementById('modal-step-1');
-    const step2 = document.getElementById('modal-step-2');
-    const footer1 = document.getElementById('footer-step-1');
-    const footer2 = document.getElementById('footer-step-2');
-    const submitBtn = document.getElementById('submit-booking-code');
-    const backBtn = document.getElementById('back-to-step-1');
-
-    submitBtn.addEventListener('click', function (event) {
-        event.preventDefault();
-        step1.classList.add('d-none');
-        footer1.classList.add('d-none');
-        step2.classList.remove('d-none');
-        footer2.classList.remove('d-none');
-    });
-
-    backBtn.addEventListener('click', function () {
-        step2.classList.add('d-none');
-        footer2.classList.add('d-none');
-        step1.classList.remove('d-none');
-        footer1.classList.remove('d-none');
-    });
 
 
 
-    // --- Logik for sædevalg-modal ---
-    const seatMapContainer = document.getElementById('seat-map-container');
-    const rows = 20;
-    const seatsPerRow = 12;
-
-    function generateSeats() {
-        seatMapContainer.innerHTML = '';
-        for (let i = 0; i < rows * seatsPerRow; i++) {
-            const seat = document.createElement('div');
-            seat.classList.add('seat');
-            if (Math.random() < 0.2) {
-                seat.classList.add('sold');
-            }
-            seatMapContainer.appendChild(seat);
-        }
-    }
-
-    seatMapContainer.addEventListener('click', function (event) {
-        const clickedEl = event.target;
-        if (clickedEl.classList.contains('seat') && !clickedEl.classList.contains('sold')) {
-            clickedEl.classList.toggle('selected');
-        }
-    });
-
-    movieContainer.addEventListener('click', function (event) {
-        const clickedEl = event.target;
-        if (clickedEl.classList.contains('showtime-btn')) {
-            event.preventDefault();
-            generateSeats();
-            seatModal.show();
-        }
-    });
-});
-
-document.querySelectorAll('.dropdown-item[data-bs-toggle="modal"]').forEach(item => {
-    item.addEventListener('click', e => {
-        const toggle = e.target.closest('.dropdown')?.querySelector('[data-bs-toggle="dropdown"]');
-        if (toggle) bootstrap.Dropdown.getOrCreateInstance(toggle).hide();
-    });
-});
- */

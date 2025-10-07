@@ -53,52 +53,60 @@
     visibility: visible;
 }
 
-
-
-
-/* Custom CSS til sædevælger */
-#seat-map-container {
-    display: grid;
-    /* Laver et gitter med 12 lige brede kolonner */
-    grid-template-columns: repeat(12, auto);
-    gap: 6px; /* Afstand mellem sæderne */
-    justify-content: center;     /* Centrerer hele det nu mindre gitter i midten af modalen */
-
-}
-
-.seat {
-    width: 25px;
-    height: 25px;
-    background-color: #800080; /* Lilla for ledige sæder */
-    border-radius: 4px;
+/* Styling for sædekortet i modalen */
+.seat-box {
+    width: 40px; /* Størrelse på sæde-firkanter */
+    height: 40px;
+    line-height: 25px;
+    border: 2px solid #5a5a5a;
+    transition: transform 0.1s ease-in-out;
     cursor: pointer;
-    transition: transform 0.1s ease-in-out, background-color 0.2s;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
 }
 
-/* Visuel feedback når man holder musen over et ledigt sæde */
-.seat:not(.sold):not(.selected):hover {
+.seat-box.available:hover {
     transform: scale(1.1);
-    background-color: #a040a0;
+    background-color: #0d6efd !important; /* Et blåt hover-look */
+    color: white !important;
 }
 
-.seat.sold {
-    background-color: #dc3545; /* Rød for solgte sæder */
+.seat-box.selected {
+    border-color: #ffc107; /* gul kant */
+}
+
+.seat-box.sold {
     cursor: not-allowed;
+    background-color: #6c757d !important; /* Grå/rød for solgt */
+    color: #495057 !important;
+    opacity: 0.6;
+    border-color: #495057;
 }
 
-.seat.selected {
-    background-color: #ffffff; /* Hvid for valgte sæder */
-}
-
-/* CSS til farveforklaringen (legend) */
+/* For legenden, da den også bruger .seat-legend */
 .seat-legend {
     width: 20px;
     height: 20px;
+    display: inline-block;
+    border: 2px solid #5a5a5a;
     border-radius: 4px;
 }
-.seat-legend.available { background-color: #800080; }
-.seat-legend.selected { background-color: #ffffff; }
-.seat-legend.sold { background-color: #dc3545; }
+
+.seat-legend.available {
+    background-color: #198754; /* Grøn */
+}
+
+.seat-legend.selected {
+    background-color: #ffc107; /* Gul */
+    border-color: #ffc107;
+}
+
+.seat-legend.sold {
+    background-color: #dc3545; /* Rød */
+}
 
 
 
