@@ -1,7 +1,9 @@
 package com.example.kinoxp.service;
 
 import com.example.kinoxp.model.Showing;
+import com.example.kinoxp.repository.ReservedSeatJpaRepository;
 import com.example.kinoxp.repository.ShowJpaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,12 @@ import java.util.List;
 public class ShowingService {
     ShowJpaRepository showJpaRepository;
 
+    ReservedSeatJpaRepository reservedSeatJpaRepository;
+
     @Autowired
-    public ShowingService(ShowJpaRepository showJpaRepository) {
+    public ShowingService(ShowJpaRepository showJpaRepository, ReservedSeatJpaRepository reservedSeatJpaRepository) {
         this.showJpaRepository = showJpaRepository;
+        this.reservedSeatJpaRepository = reservedSeatJpaRepository;
     }
 
     public List<Showing> findAllShowings() {
@@ -24,7 +29,12 @@ public class ShowingService {
         return showJpaRepository.save(showing);
     }
 
+    @Transactional
     public void deleteShowing(int id) {
+        // 1. Slet først alle afhængige 'ReservedSeat' rækker
+        reservedSeatJpaRepository.deleteAllByShow_ShowId(id);
+
+        // 2. Slet derefter selve 'Showing'
         showJpaRepository.deleteById(id);
     }
 

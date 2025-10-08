@@ -61,6 +61,31 @@ function updateWeekHeader() {
     }
 }
 
+
+function handleDeleteShowing(showingId, showingText) {
+    // Spørg om bekræftelse
+    if (confirm(`Er du sikker på, at du vil slette forestillingen:\n"${showingText}"?`)) {
+        fetch(`/deleteshowing/${showingId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                // En succesfuld sletning returnerer ofte status 204 No Content
+                if (response.ok || response.status === 204) {
+                    alert('Forestillingen blev slettet!');
+                    renderAllMovies(); // Genindlæs filmene for at vise ændringen
+                } else {
+                    throw new Error('Fejl fra serveren.');
+                }
+            })
+            .catch(error => {
+                console.error('Fejl ved sletning af forestilling:', error);
+                alert('Der skete en fejl. Kunne ikke slette forestillingen.');
+            });
+    }
+}
+
+
+
 export function fetchAndRenderShowings(movie, showingsContainer) {
     showingsContainer.innerHTML = '';
 
@@ -109,16 +134,24 @@ export function fetchAndRenderShowings(movie, showingsContainer) {
                 const dailyShowings = showingsByDate[dateKey] || [];
 
                 dailyShowings.forEach(showing => {
-                    const button = document.createElement('a');
-                    button.href = '#';
-                    button.classList.add('btn', 'btn-light', 'text-nowrap', 'showtime-btn');
+                    const button = document.createElement('button'); // <-- ÆNDRET FRA 'a' til 'button'
+                    button.type = 'button';
+                    // Tilføj en rød "outline" for at indikere, at det er en slette-handling
+                    button.classList.add('btn', 'btn-outline-danger', 'text-nowrap', 'showtime-btn');
 
                     const time = new Date(showing.start_time).toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit'
                     });
 
-                    button.textContent = `Sal ${showing.theatre.theatreId} kl. ${time}`;
+                    const buttonText = `Sal ${showing.theatre.theatreId} kl. ${time}`;
+                    button.textContent = buttonText;
+
+                    // ---- NY EVENT LISTENER ----
+                    button.addEventListener('click', () => {
+                        handleDeleteShowing(showing.showId, buttonText);
+                    });
+
                     showtimeButtonsContainer.appendChild(button);
                 });
 
