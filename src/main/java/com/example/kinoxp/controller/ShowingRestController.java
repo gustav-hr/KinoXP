@@ -7,6 +7,8 @@ import com.example.kinoxp.repository.MovieJpaRepository;
 import com.example.kinoxp.service.ShowingService;
 import com.example.kinoxp.service.TheatreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +45,19 @@ public class ShowingRestController {
     public Showing addShowing(@RequestBody Showing showing) {
         return showingService.saveShowing(showing);
     }
+
+    @DeleteMapping("/deleteshowing/{id}")
+    public ResponseEntity<Void> deleteShowing(@PathVariable int id) {
+        try {
+            showingService.deleteShowing(id);
+            // Returnerer en 204 No Content status, som betyder "succes, intet at returnere"
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            // Hvis der sker en fejl, returneres en 500 Internal Server Error
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 
 }
