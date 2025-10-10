@@ -9,6 +9,7 @@ import com.example.kinoxp.repository.ReservedSeatJpaRepository;
 import com.example.kinoxp.repository.SeatJpaRepository;
 import com.example.kinoxp.repository.ShowJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,4 +74,21 @@ public class BookingService {
     public Booking findBookingById(int id) {
         return bookingJpaRepository.findById(id).orElse(null);
     }
+
+    public boolean deleteByEmailAndCode(String email, int bookingCode) {
+
+        Booking booking = bookingJpaRepository.findByEmailAndBooking_id(email, bookingCode);
+
+        if (booking != null) {
+            // Slet først alle reserverede sæder for denne booking
+            reservedSeatJpaRepository.deleteByBookingId(booking.getBooking_id());
+
+            // Slet derefter selve bookingen
+            bookingJpaRepository.deleteByEmailAndBooking_id(email, bookingCode);
+            return true;
+        }
+
+        return false;
+    }
+
 }

@@ -31,6 +31,22 @@ public class BookingRestController {
         }
     }
 
+    @PostMapping("/delete/booking")
+    public ResponseEntity<String> deleteBooking(@RequestBody Map<String, Object> request) {
+        String email = (String) request.get("email");
+        int bookingCode = (int) request.get("bookingCode");
+
+        boolean deleted = bookingService.deleteByEmailAndCode(email, bookingCode);
+
+        if (deleted) {
+            return ResponseEntity.ok("Booking med kode " + bookingCode + " for " + email + " er afbestilt.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Ingen booking fundet for " + email + " med kode " + bookingCode + ".");
+        }
+    }
+
+
 }
 
 
