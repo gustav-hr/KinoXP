@@ -359,7 +359,7 @@ confirmBtn.addEventListener('click', async() => {
         const data = await bookingResponse.json();
         console.log("Booking gennemført:", data);
 
-        alert('Booking gennemført!');
+        alert('Booking gennemført! dit Booking nummer er: '+ data.booking_id);
         seatModal.hide();
 
         //opdater showing
@@ -369,3 +369,5 @@ confirmBtn.addEventListener('click', async() => {
         alert('Noget gik galt, prøv igen')
     }
 });
+
+

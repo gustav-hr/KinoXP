@@ -37,7 +37,7 @@
         <a class="navbar-brand mx-auto" id="logo" href="#">Kino</a>
 
         <button class="btn btn-outline-warning" type="button" data-bs-toggle="modal"
-                data-bs-target="#cancelBookingModal">
+                data-bs-target="#cancelBookingModal" id="cancel-booking-btn">
             Cancel Tickets
         </button>
     </div>
@@ -116,24 +116,11 @@
                         </div>
                     </form>
                 </div>
-
-                <div id="modal-step-2" class="d-none text-center">
-                    <h4>John Wick: Chapter 4</h4>
-                    <p class="lead">Monday 29/09/2025</p>
-                    <p><strong>Number of tickets: 5</strong></p>
-                    <p class="mt-4">Are you sure you want to cancel this booking?</p>
-                </div>
-
             </div>
             <div class="modal-footer">
 
                 <div id="footer-step-1">
                     <button type="button" class="btn btn-primary" id="submit-booking-code">Submit</button>
-                </div>
-
-                <div id="footer-step-2" class="d-none w-100 d-flex justify-content-between">
-                    <button type="button" class="btn btn-danger" id="back-to-step-1">Go Back</button>
-                    <button type="button" class="btn btn-success">Confirm Cancellation</button>
                 </div>
 
             </div>

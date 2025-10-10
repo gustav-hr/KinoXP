@@ -70,7 +70,77 @@ import { fetchAndRenderShowings, setupWeekNavigation } from './showings.js';
  document.addEventListener("DOMContentLoaded", () => {
      renderAllMovies();
      setupWeekNavigation(renderAllMovies)
- })
+
+     const submitBtn = document.getElementById("submit-booking-code");
+     console.log("heeeeeeeeeeere")
+     console.log("submitBtn:", submitBtn);
+     const emailInput = document.getElementById("emailInput");
+     const bookingCodeInput = document.getElementById("bookingCodeInput");
+     const cancelModalElement = document.getElementById("cancelBookingModal");
+     const cancelModal = new bootstrap.Modal(cancelModalElement);
+
+
+     submitBtn.addEventListener('click', async () => {
+         const email = emailInput.value;
+         const bookingCode = parseInt(bookingCodeInput.value);
+
+         console.log("Email: " + email + " | Code: " + bookingCode);
+
+         if (!email || isNaN(bookingCode)) {
+             alert("Indtast både gyldig email og bookingkode (kun tal).");
+             return;
+         }
+         try {
+             const response = await fetch("http://localhost:8080/api/bookings/delete/booking", {
+                 method: "POST",
+                 headers: { "Content-Type": "application/json" },
+                 body: JSON.stringify({ email, bookingCode })
+             });
+
+             const message = await response.text();
+
+             if (!response.ok) {
+                 throw new Error(message);
+             }
+
+             showConfirmationModal(message);
+
+         } catch (err) {
+             alert("Fejl: " + err.message);
+         }
+     });
+ });
+
+function showConfirmationModal(message) {
+    let confirmModalEl = document.getElementById("confirmationModal");
+
+    if (!confirmModalEl) {
+        confirmModalEl = document.createElement("div");
+        confirmModalEl.className = "modal fade";
+        confirmModalEl.id = "confirmationModal";
+        confirmModalEl.tabIndex = -1;
+        confirmModalEl.innerHTML = `
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Booking annulleret</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <p id="confirmationMessage"></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
+              </div>
+            </div>
+          </div>`;
+        document.body.appendChild(confirmModalEl);
+    }
+
+    document.getElementById("confirmationMessage").textContent = message;
+    new bootstrap.Modal(confirmModalEl).show();
+}
+
 
 
 
