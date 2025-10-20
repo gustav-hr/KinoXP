@@ -110,26 +110,121 @@ public class InitData implements CommandLineRunner {
         movie2.setGenre("Animation, Adventure, Comedy");
         movie2.setPoster_url("https://img-cdn.sfanytime.com/COVERM/COVERM_477fdb52-7d0b-4cdc-9c25-949a8dfbb14b_da.jpg?w=415&ar=0.692&fit=crop&fm=pjpg&s=61c203cbc1a9dc320ea936d4f453d156");
         movieJpaRepository.save(movie2);
-        System.out.println("Oprettet 2 film.");
+
+        // --- TILFØJEDE FILM START ---
+        Movie movie3 = new Movie();
+        movie3.setTitle("Oppenheimer");
+        movie3.setDescription("Historien om den amerikanske videnskabsmand J. Robert Oppenheimer og hans rolle i udviklingen af atombomben.");
+        movie3.setDuration_minutes(180);
+        movie3.setAge_rating(15);
+        movie3.setActors("Cillian Murphy, Emily Blunt, Matt Damon");
+        movie3.setGenre("Biography, Drama, History");
+        movie3.setPoster_url("https://www.tallengestore.com/cdn/shop/products/Oppenheimer-CillianMurphy-ChristopherNolan-HollywoodMoviePoster_1_f2b4d54a-6a90-4df1-b2e8-5cd7949d4c2c.jpg?v=1647424460");
+        movieJpaRepository.save(movie3);
+
+        Movie movie4 = new Movie();
+        movie4.setTitle("Barbie");
+        movie4.setDescription("Barbie og Ken har det sjovt i den tilsyneladende perfekte verden i Barbie Land, indtil de får en chance for at tage til den virkelige verden.");
+        movie4.setDuration_minutes(114);
+        movie4.setAge_rating(7);
+        movie4.setActors("Margot Robbie, Ryan Gosling, America Ferrera");
+        movie4.setGenre("Adventure, Comedy, Fantasy");
+        movie4.setPoster_url("https://storage.googleapis.com/pod_public/750/262974.jpg");
+        movieJpaRepository.save(movie4);
+
+        Movie movie5 = new Movie();
+        movie5.setTitle("Mission: Impossible - Dead Reckoning Part One");
+        movie5.setDescription("Ethan Hunt og hans IMF-hold går i gang med deres farligste mission hidtil.");
+        movie5.setDuration_minutes(163);
+        movie5.setAge_rating(11);
+        movie5.setActors("Tom Cruise, Hayley Atwell, Ving Rhames");
+        movie5.setGenre("Action, Adventure, Thriller");
+        movie5.setPoster_url("https://bluraysforeveryone.com/cdn/shop/files/341691_slip.jpg?v=1693231176&width=1946");
+        movieJpaRepository.save(movie5);
+
+        Movie movie6 = new Movie();
+        movie6.setTitle("Elemental");
+        movie6.setDescription("Historien foregår i en by, hvor beboere af ild, vand, land og luft bor sammen.");
+        movie6.setDuration_minutes(109);
+        movie6.setAge_rating(7);
+        movie6.setActors("Leah Lewis, Mamoudou Athie, Ronnie del Carmen");
+        movie6.setGenre("Animation, Adventure, Comedy");
+        movie6.setPoster_url("https://m.media-amazon.com/images/I/718jC7PE5ZL.jpg");
+        movieJpaRepository.save(movie6);
+        // --- TILFØJEDE FILM SLUT ---
+
+        System.out.println("Oprettet 6 film.");
 
         // 5. Opret nogle forestillinger
         Showing showing1 = new Showing();
         showing1.setMovie(movie1);
         showing1.setTheatre(theatre);
-        showing1.setStart_time(LocalDateTime.now().withHour(18).withMinute(0).withSecond(0)); // I dag kl. 18:00
+        showing1.setStart_time(LocalDateTime.now().withHour(18).withMinute(0).withSecond(0)); // I dag kl. 18:00 (Sal 1)
         showtimeRepository.save(showing1);
 
         Showing showing2 = new Showing();
         showing2.setMovie(movie2);
         showing2.setTheatre(theatre2);
-        showing2.setStart_time(LocalDateTime.now().withHour(19).withMinute(30).withSecond(0)); // I dag kl. 19:30
+        showing2.setStart_time(LocalDateTime.now().withHour(19).withMinute(30).withSecond(0)); // I dag kl. 19:30 (Sal 2)
         showtimeRepository.save(showing2);
+
         Showing showing3 = new Showing();
         showing3.setMovie(movie1);
         showing3.setTheatre(theatre);
-        showing3.setStart_time(LocalDateTime.now().plusDays(1).withHour(21).withMinute(0).withSecond(0)); // I morgen kl. 21:00
+        showing3.setStart_time(LocalDateTime.now().plusDays(1).withHour(21).withMinute(0).withSecond(0)); // I morgen kl. 21:00 (Sal 1)
         showtimeRepository.save(showing3);
-        System.out.println("Oprettet 3 forestillinger.");
+
+        // --- TILFØJEDE FORESTILLINGER START ---
+        Showing showing4 = new Showing();
+        showing4.setMovie(movie3);
+        showing4.setTheatre(theatre2);
+        showing4.setStart_time(LocalDateTime.now().withHour(17).withMinute(0).withSecond(0)); // I dag kl. 17:00 (Sal 2)
+        showtimeRepository.save(showing4);
+
+        Showing showing5 = new Showing();
+        showing5.setMovie(movie4);
+        showing5.setTheatre(theatre);
+        showing5.setStart_time(LocalDateTime.now().withHour(16).withMinute(0).withSecond(0)); // I dag kl. 16:00 (Sal 1)
+        showtimeRepository.save(showing5);
+
+        Showing showing6 = new Showing();
+        showing6.setMovie(movie5);
+        showing6.setTheatre(theatre2);
+        showing6.setStart_time(LocalDateTime.now().plusDays(1).withHour(19).withMinute(45).withSecond(0)); // I morgen kl. 19:45 (Sal 2)
+        showtimeRepository.save(showing6);
+
+        Showing showing7 = new Showing();
+        showing7.setMovie(movie6);
+        showing7.setTheatre(theatre);
+        showing7.setStart_time(LocalDateTime.now().plusDays(2).withHour(14).withMinute(30).withSecond(0)); // Om to dage kl. 14:30 (Sal 1)
+        showtimeRepository.save(showing7);
+
+        Showing showing8 = new Showing();
+        showing8.setMovie(movie3);
+        showing8.setTheatre(theatre);
+        showing8.setStart_time(LocalDateTime.now().plusDays(2).withHour(20).withMinute(30).withSecond(0)); // Om to dage kl. 20:30 (Sal 1)
+        showtimeRepository.save(showing8);
+
+        Showing showing9 = new Showing();
+        showing9.setMovie(movie4);
+        showing9.setTheatre(theatre2);
+        showing9.setStart_time(LocalDateTime.now().plusDays(1).withHour(17).withMinute(30).withSecond(0)); // I morgen kl. 17:30 (Sal 2)
+        showtimeRepository.save(showing9);
+
+        Showing showing10 = new Showing();
+        showing10.setMovie(movie2);
+        showing10.setTheatre(theatre);
+        showing10.setStart_time(LocalDateTime.now().plusDays(2).withHour(10).withMinute(0).withSecond(0)); // Om to dage kl. 10:00 (Sal 1)
+        showtimeRepository.save(showing10);
+
+        Showing showing11 = new Showing();
+        showing11.setMovie(movie5);
+        showing11.setTheatre(theatre);
+        showing11.setStart_time(LocalDateTime.now().plusDays(3).withHour(18).withMinute(0).withSecond(0)); // Om tre dage kl. 18:00 (Sal 1)
+        showtimeRepository.save(showing11);
+
+        // --- TILFØJEDE FORESTILLINGER SLUT ---
+        System.out.println("Oprettet 11 forestillinger."); // Opdateret tæller
 
         Admin adm = new Admin();
         adm.setUsername("admin jensen");
